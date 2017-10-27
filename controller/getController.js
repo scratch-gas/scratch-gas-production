@@ -7,7 +7,7 @@ it can do following:
 */
 const getController = {}
 getController.getRequest= (req, res, next)=> {
-    // res.send('Hello')
+    res.send('This is your server')
 }
 
 module.exports = getController;
