@@ -4,17 +4,20 @@ const bodyParser = require('body-parser');
 const getController = require('./controller/getController');
 const postController = require ('./controller/postController');
 const port = 3000;
+const path = require('path');
 
 app.use(bodyParser.urlencoded({extended: true}));
-
-app.get('/', getController.getRequest, (req, res)=> {
-
-    // res.render();
-});
+app.use(express.static('./static'));
+// app.get('/', getController.getRequest, (req, res)=> {
+//   res.sendFile(path.join(__dirname, 'index.html'));
+//     // res.render();
+// });
 
 app.post('/', postController.postRequest);
 
-
+app.get('/auth/github', (req, res) => {
+  res.send("hey");
+});
 
 app.listen(port, (err)=> {
     if(err) {
