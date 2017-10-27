@@ -24,7 +24,9 @@
     "express": "^4.16.2",
     "path": "^0.12.7",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "babel": "^6.23.0",
