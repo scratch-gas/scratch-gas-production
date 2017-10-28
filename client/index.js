@@ -26,3 +26,5 @@ ReactDOM.render(
   <App />, 
   document.getElementById('root')
 );
+
+module.exports = { ReactDOM, App };

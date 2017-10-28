@@ -2389,6 +2389,8 @@ var App = function (_Component) {
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
 
+module.exports = { ReactDOM: _reactDom2.default, App: App };
+
 /***/ }),
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
