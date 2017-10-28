@@ -3,6 +3,7 @@ const app = express();
 const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
+const data = require('./data.js');
 const passport = require('./authentication/passport.js');
 const bodyParser = require('body-parser');
 const getController = require('./controller/getController');
@@ -27,11 +28,19 @@ app.get('/success', testAuth, (req, res) => {
 app.get('/failure', testAuth, (req, res) => {
   res.rstatus = 401;
 })
+
+app.get('/getAll', (req, res) => {
+  res.send(JSON.stringify(data.actual));
+}); 
+
+app.get('/getAllMock', (req, res) => {
+  res.send(JSON.stringify(data.mock));
+}); 
+
 // ensures that all routes are to be handled by REACT
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, './static/index.html'));
 });
-
 
 app.listen(PORT, (err)=> {
     if(err) {

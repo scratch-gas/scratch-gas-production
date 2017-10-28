@@ -2461,9 +2461,24 @@ var App = function (_Component) {
       });
     }
   }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      fetch('/getAllMock').then(function (resp) {
+        console.log("res", resp.json());
+        _this3.setState({
+          repos: resp.json()
+        });
+        //return resp.json();
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       return (
         // Since v4 BrowserRouter does the handling of history on its own
@@ -2474,10 +2489,10 @@ var App = function (_Component) {
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render() {
-                return _react2.default.createElement(_Login2.default, { login: _this3.login });
+                return _react2.default.createElement(_Login2.default, { login: _this4.login });
               } }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/repo', render: function render() {
-                return _react2.default.createElement(_SingleRepo2.default, null);
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/repos', render: function render() {
+                return _react2.default.createElement(_SingleRepo2.default, { repos: _this4.state.repos });
               } }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/public', render: function render() {
                 return _react2.default.createElement(_PublicRepo2.default, null);
@@ -25725,12 +25740,6 @@ var Login = function (_Component) {
 
   _createClass(Login, [{
     key: "render",
-
-    // constructor(props) {
-    //   super(props);
-    //   console.log("constr:", props);
-    //   console.log("this", this);
-    // }
     value: function render() {
       return _react2.default.createElement(
         "div",
@@ -25843,15 +25852,17 @@ var SingleRepo = function (_Component) {
   }
 
   _createClass(SingleRepo, [{
-    key: 'render',
+    key: "render",
     value: function render() {
+      var reposObj = this.props.repos;
+      console.log("reso", reposObj);
       return _react2.default.createElement(
-        'div',
-        { id: 'single-container' },
+        "div",
+        { id: "single-container" },
         _react2.default.createElement(
-          'h1',
+          "h1",
           null,
-          'Welcome ',
+          "Welcome ",
           '{username}'
         )
       );
@@ -25963,7 +25974,7 @@ var PrivateRoute = function (_Component) {
       var _this2 = this;
 
       return _react2.default.createElement(_reactRouterDom.Route, { render: function render(props) {
-          return _this2.props.isAuth ? _react2.default.createElement(_this2.props.component, _this2.props) : _react2.default.createElement(_reactRouterDom.Redirect, { from: '/', to: '/repo' });
+          return _this2.props.isAuth ? _react2.default.createElement(_this2.props.component, _this2.props) : _react2.default.createElement(_reactRouterDom.Redirect, { from: '/', to: '/repos' });
         } });
     }
   }]);
