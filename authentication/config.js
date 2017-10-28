@@ -1,8 +1,7 @@
 module.exports = { 
 
   strategy: function (accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-    return done(null,profile);
-  },
+    process.nextTick( () => done(null,profile));
+  }
 
 }
