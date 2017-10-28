@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 
 class Login extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   console.log("constr:", props);
-  //   console.log("this", this);
-  // }
+
   render() {
     return (
       <div id="login-container">

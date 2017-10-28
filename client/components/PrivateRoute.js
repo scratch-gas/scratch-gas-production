@@ -5,7 +5,7 @@ import SingleRepo from './SingleRepo.js';
 class PrivateRoute extends Component {
   render() {
     return (
-      <Route render={ props => { return ((this.props.isAuth) ? <this.props.component {...this.props}/> : <Redirect from='/' to='/repo' />) } } />
+      <Route render={ props => { return ((this.props.isAuth) ? <this.props.component {...this.props}/> : <Redirect from='/' to='/repos' />) } } />
     );
   }
 }
