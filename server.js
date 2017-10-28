@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const getController = require('./controller/getController');
 const postController = require ('./controller/postController');
 const testAuth = require('./authentication/testAuth.js');
-const PORT = 3000;
+const PORT = 1337;
 const path = require('path');
 
 app.use(cors());
@@ -19,7 +19,7 @@ app.use(passport.session());
 
 app.post('/', postController.postRequest);
 
-app.get('/auth/github', passport.authenticate('github'), (req, res) => {});
+app.get('/auth/github', passport.authenticate('github'));
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/', successRedirect: '/testAuth' }));
 app.get('/testAuth', testAuth, (req, res) => {
   res.redirect('/home');
