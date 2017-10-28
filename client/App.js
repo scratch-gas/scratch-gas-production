@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login.js';
 import Home from './components/Home.js';
 import SingleRepo from './components/SingleRepo.js';
@@ -23,10 +23,8 @@ class App extends Component {
   }
 
   login() {
-    console.log(this.props);
-    fetch('/auth/github')
+    fetch('http://localhost:3000/auth/github')
     .then(resp => {
-      
       if(resp.status === 200) {
         this.setState({
           isAuth: true,
@@ -37,23 +35,21 @@ class App extends Component {
           isAuth: false,
           err: resp.json()
         });
-
       }
-    }).catch(err => {
-      console.log(err);
-    });
+    })
   }
 
   render() {
     return (
-      <Router> 
+      // Since v4 BrowserRouter does the handling of history on its own
+      <BrowserRouter> 
         <Switch>
-          <Route path="/" render={ () => ( <Login login={this.login} />) } />
-          <Route path="/repo" component={SingleRepo} />
-          <Route path="/repo/public/:id" component={PublicRepo} />
+          <Route exact path="/" render={ () => ( <Login login={this.login} />) } />
+          <Route path="/repo" render={ () => (<SingleRepo />) } />
+          <Route path="/public" render={ () => (<PublicRepo />) } />
           <PrivateRoute path="/home" component={Home} isAuth={this.state.isAuth} err={this.state.err} />
         </Switch>
-      </Router>
+      </BrowserRouter>
     );
   }
 }
