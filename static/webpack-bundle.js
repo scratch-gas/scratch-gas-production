@@ -2446,8 +2446,9 @@ var App = function (_Component) {
     value: function login() {
       var _this2 = this;
 
+      console.log(this.props);
       fetch('/auth/github').then(function (resp) {
-        console.log(resp);
+
         if (resp.status === 200) {
           _this2.setState({
             isAuth: true,

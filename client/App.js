@@ -23,9 +23,10 @@ class App extends Component {
   }
 
   login() {
+    console.log(this.props);
     fetch('/auth/github')
     .then(resp => {
-      console.log(resp);
+      
       if(resp.status === 200) {
         this.setState({
           isAuth: true,
@@ -36,6 +37,7 @@ class App extends Component {
           isAuth: false,
           err: resp.json()
         });
+
       }
     }).catch(err => {
       console.log(err);
