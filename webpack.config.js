@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './client/index.js',
+  entry: './client/App.js',
   output: {
     path: path.join(__dirname, 'static'),
     filename: 'webpack-bundle.js'
@@ -18,5 +18,8 @@ module.exports = {
         }
       }
     ]
+  },
+  devServer : {
+    historyApiFallback : true
   }
 }
