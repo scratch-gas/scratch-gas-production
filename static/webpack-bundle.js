@@ -2446,9 +2446,7 @@ var App = function (_Component) {
     value: function login() {
       var _this2 = this;
 
-      console.log(this.props);
-      fetch('/auth/github').then(function (resp) {
-
+      fetch('http://localhost:3000/auth/github').then(function (resp) {
         if (resp.status === 200) {
           _this2.setState({
             isAuth: true,
@@ -2460,8 +2458,6 @@ var App = function (_Component) {
             err: resp.json()
           });
         }
-      }).catch(function (err) {
-        console.log(err);
       });
     }
   }, {
@@ -2469,18 +2465,25 @@ var App = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      return _react2.default.createElement(
-        _reactRouterDom.BrowserRouter,
-        null,
+      return (
+        // Since v4 BrowserRouter does the handling of history on its own
         _react2.default.createElement(
-          _reactRouterDom.Switch,
+          _reactRouterDom.BrowserRouter,
           null,
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
-              return _react2.default.createElement(_Login2.default, { login: _this3.login });
-            } }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/repo', component: _SingleRepo2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/repo/public/:id', component: _PublicRepo2.default }),
-          _react2.default.createElement(_PrivateRoute2.default, { path: '/home', component: _Home2.default, isAuth: this.state.isAuth, err: this.state.err })
+          _react2.default.createElement(
+            _reactRouterDom.Switch,
+            null,
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render() {
+                return _react2.default.createElement(_Login2.default, { login: _this3.login });
+              } }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/repo', render: function render() {
+                return _react2.default.createElement(_SingleRepo2.default, null);
+              } }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/public', render: function render() {
+                return _react2.default.createElement(_PublicRepo2.default, null);
+              } }),
+            _react2.default.createElement(_PrivateRoute2.default, { path: '/home', component: _Home2.default, isAuth: this.state.isAuth, err: this.state.err })
+          )
         )
       );
     }
@@ -25840,15 +25843,16 @@ var SingleRepo = function (_Component) {
   }
 
   _createClass(SingleRepo, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { id: "single-container" },
+        'div',
+        { id: 'single-container' },
         _react2.default.createElement(
-          "h1",
+          'h1',
           null,
-          "Welcome to Single Repo Page!"
+          'Welcome ',
+          '{username}'
         )
       );
     }
@@ -25956,7 +25960,11 @@ var PrivateRoute = function (_Component) {
   _createClass(PrivateRoute, [{
     key: 'render',
     value: function render() {
-      return this.props.isAuth ? _react2.default.createElement(this.props.component, this.props) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/repo' });
+      var _this2 = this;
+
+      return _react2.default.createElement(_reactRouterDom.Route, { render: function render(props) {
+          return _this2.props.isAuth ? _react2.default.createElement(_this2.props.component, _this2.props) : _react2.default.createElement(_reactRouterDom.Redirect, { from: '/', to: '/repo' });
+        } });
     }
   }]);
 

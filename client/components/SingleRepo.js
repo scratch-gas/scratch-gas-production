@@ -4,7 +4,7 @@ class SingleRepo extends Component {
   render() {
     return (
       <div id="single-container">
-        <h1>Welcome to Single Repo Page!</h1>
+        <h1>Welcome {'{username}'}</h1>
       </div>
     );
   }
