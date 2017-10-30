@@ -39,18 +39,18 @@ class App extends Component {
     })
   }
 
-  componentDidMount() {
-    fetch('/getAllMock')
-    .then(resp => {
-      console.log("res", resp.json());
-      this.setState({
-        repos: resp.json(),
-      })
-      //return resp.json();
-    }).catch(err => {
-      console.log(err);
-    });
-  }
+  // componentDidMount() {
+  //   fetch('/getAllMock')
+  //   .then(resp => {
+  //     console.log("res", resp.json());
+  //     this.setState({
+  //       repos: resp.json(),
+  //     })
+  //     //return resp.json();
+  //   }).catch(err => {
+  //     console.log(err);
+  //   });
+  // }
 
   render() {
     return (
