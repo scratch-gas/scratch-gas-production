@@ -2504,20 +2504,19 @@ var App = function (_Component) {
       var _this2 = this;
 
       fetch('http://localhost:3000/auth/github', {
-        method: "GET"
+        method: 'GET'
       }).then(function (resp) {
         if (resp.status === 200) {
           _this2.setState({
             isAuth: true,
             err: ''
           });
+        } else if (resp.status === 401) {
+          _this2.setState({
+            isAuth: false,
+            err: resp.json()
+          });
         }
-        // else if (resp.status === 401) {
-        //   this.setState({
-        //     isAuth: false,
-        //     err: resp.json()
-        //   });
-        // }
       }).catch(function (err) {
         return console.log('THIS DA ERROR', err);
       });

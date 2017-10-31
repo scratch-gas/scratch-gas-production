@@ -26,6 +26,7 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
 
 app.get('/success', testAuth, (req, res) => {
   res.status = 200;
+  res.send('yay!');
 });
 app.get('/failure', testAuth, (req, res) => {
   res.rstatus = 401;
