@@ -34,6 +34,7 @@ passport.use(new githubStrategy ({
 
 
 passport.serializeUser(function(user, done) {
+  console.log('THIS IS THE USER INSIDE SERIALIZE', user)
   // console.log('serialized user -->', user)
   done(null, user);
 });
