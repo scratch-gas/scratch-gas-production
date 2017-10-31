@@ -33,13 +33,11 @@ passport.use(new githubStrategy ({
   var options = { method: 'GET',
   url: `https://api.github.com/repos/CodesmithLLC/precourse-assessment/?access_token=${accessToken}`,
   headers: 
-   { 
+    {   
       'User-Agent': 'Project-Githug',
      } };
-
 request(options, function (error, response, body) {
-  if (error) throw new Error(error);
- 
+  if (error) throw new Error(error); 
   console.log(JSON.parse(body));
 });
    
