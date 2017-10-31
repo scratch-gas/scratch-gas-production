@@ -18,28 +18,28 @@ class App extends Component {
   componentWillMount() {
     this.setState({
       isAuth: false,
-      err: ''
+      err: '',
     });
   }
 
   login() {
     fetch('http://localhost:3000/auth/github', {
-      method:"GET",
+      method: 'GET',
     })
-    .then(resp => {
-      if(resp.status === 200) {
-        this.setState({
-          isAuth: true,
-          err: ''
-        });
-      } 
-      // else if (resp.status === 401) {
-      //   this.setState({
-      //     isAuth: false,
-      //     err: resp.json()
-      //   });
-      // }
-    }).catch(err => console.log('THIS DA ERROR', err))
+      .then((resp) => {
+        if (resp.status === 200) {
+          this.setState({
+            isAuth: true,
+            err: '',
+          });
+        }
+        else if (resp.status === 401) {
+          this.setState({
+            isAuth: false,
+            err: resp.json()
+          });
+        }
+      }).catch(err => console.log('THIS DA ERROR', err));
   }
 
   // componentDidMount() {
@@ -58,11 +58,11 @@ class App extends Component {
   render() {
     return (
       // Since v4 BrowserRouter does the handling of history on its own
-      <BrowserRouter> 
+      <BrowserRouter>
         <Switch>
-          <Route exact path="/" render={ () => ( <Login login={this.login} />) } />
-          <Route path="/repos" render={ () => (<SingleRepo repos={this.state.repos}/>) } />
-          <Route path="/public" render={ () => (<PublicRepo />) } />
+          <Route exact path="/" render={() => (<Login login={this.login} />)} />
+          <Route path="/repos" render={() => (<SingleRepo repos={this.state.repos} />)} />
+          <Route path="/public" render={() => (<PublicRepo />)} />
           <PrivateRoute path="/home" component={Home} isAuth={this.state.isAuth} err={this.state.err} />
         </Switch>
       </BrowserRouter>
@@ -71,6 +71,6 @@ class App extends Component {
 }
 
 ReactDOM.render(
-  <App />, 
-  document.getElementById('root')
+  <App />,
+  document.getElementById('root'),
 );
