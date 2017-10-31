@@ -31,7 +31,7 @@ passport.use(new githubStrategy ({
   // console.log('accessToken', accessToken)
 
   var options = { method: 'GET',
-  url: `https://api.github.com/repos/cli53/scratch-gas-production/contents/?access_token=${accessToken}`,
+  url: `https://api.github.com/repos/CodesmithLLC/precourse-assessment/?access_token=${accessToken}`,
   headers: 
    { 
       'User-Agent': 'Project-Githug',
@@ -40,9 +40,6 @@ passport.use(new githubStrategy ({
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
  
-  // response.json({
-  //   message: JSON.parse(body),
-  // })
   console.log(JSON.parse(body));
 });
    
@@ -84,7 +81,7 @@ function ensureAuthenticated(req, res, next) {
 
 app.get('/success', ensureAuthenticated, (req, res) => {
   res.status = 200;
-  console.log(res)
+  // console.log(res)
 });
 app.get('/failure', ensureAuthenticated, (req, res) => {
   res.rstatus = 401;
