@@ -23,20 +23,23 @@ class App extends Component {
   }
 
   login() {
-    fetch('http://localhost:3000/auth/github')
+    fetch('http://localhost:3000/auth/github', {
+      method:"GET",
+    })
     .then(resp => {
       if(resp.status === 200) {
         this.setState({
           isAuth: true,
           err: ''
         });
-      } else if (resp.status === 401) {
-        this.setState({
-          isAuth: false,
-          err: resp.json()
-        });
-      }
-    })
+      } 
+      // else if (resp.status === 401) {
+      //   this.setState({
+      //     isAuth: false,
+      //     err: resp.json()
+      //   });
+      // }
+    }).catch(err => console.log('THIS DA ERROR', err))
   }
 
   // componentDidMount() {
