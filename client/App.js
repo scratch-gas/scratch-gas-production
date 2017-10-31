@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   login() {
-    fetch('http://localhost:3000/auth/github')
+    fetch('http://localhost:3003/auth/github')
     .then(resp => {
       if(resp.status === 200) {
         this.setState({

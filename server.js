@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const getController = require('./controller/getController');
 const postController = require ('./controller/postController');
 const testAuth = require('./authentication/testAuth.js');
-const PORT = 3000;
+const PORT = 3003;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));

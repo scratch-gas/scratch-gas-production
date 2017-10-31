@@ -2503,7 +2503,7 @@ var App = function (_Component) {
     value: function login() {
       var _this2 = this;
 
-      fetch('http://localhost:3000/auth/github').then(function (resp) {
+      fetch('http://localhost:3003/auth/github').then(function (resp) {
         if (resp.status === 200) {
           _this2.setState({
             isAuth: true,
