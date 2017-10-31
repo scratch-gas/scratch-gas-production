@@ -54,7 +54,7 @@ app.get('/success', ensureAuthenticated, (req, res) => {
 app.get('/failure', ensureAuthenticated, (req, res) => {
   res.rstatus = 401;
 })
-//test
+//test1
 // app.get('/getAll', (req, res) => {
 //   res.send(JSON.stringify(data.actual));
 // }); 
