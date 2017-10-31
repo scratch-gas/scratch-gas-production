@@ -9,6 +9,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const getController = require('./controller/getController');
 const postController = require ('./controller/postController');
+const request = require ('request');
 const PORT = 3000;
 
 app.use(cors());
@@ -20,27 +21,60 @@ app.use(passport.session());
 
 app.post('/', postController.postRequest);
 
-app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/failure', successRedirect: '/success' }));
-
 passport.use(new githubStrategy ({
-  clientID: '665db1b034356213dab0',
-  clientSecret: '7c591a716de4d335f82ecf4c250aa23757916970',
+  clientID: 'a6d93781fe295e2c9ce5',
+  clientSecret: 'f0b48e47c452b696d88a709da6164d34f41c72b0',
   callbackURL: 'http://localhost:3000/auth/github/callback',
 }, function (accessToken, refreshToken, profile, done) {
   process.nextTick( () => done(null, profile));
-  console.log('THIS IS THE PROFILE', profile)
+  // console.log('THIS IS THE PROFILE', profile)
+  // console.log('accessToken', accessToken)
+
+  var options = { method: 'GET',
+  url: `https://api.github.com/repos/cli53/scratch-gas-production/contents/?access_token=${accessToken}`,
+  headers: 
+   { 
+      'User-Agent': 'Project-Githug',
+     } };
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+ 
+  // response.json({
+  //   message: JSON.parse(body),
+  // })
+  console.log(JSON.parse(body));
+});
+   
+
 }))
 
 
+
+
+
+
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/failure', successRedirect: '/success' }));
+
+//Serialize the user for the session
+//Determines which data of the user object should be stored in session
 passport.serializeUser(function(user, done) {
-  console.log('THIS IS THE USER INSIDE SERIALIZE', user)
-  // console.log('serialized user -->', user)
-  done(null, user);
+  // console.log('THIS IS THE USER INSIDE SERIALIZE', user)
+  //user.id is saved in session and later used to retrieve the whole object via deserialize function
+  //user.id is attached to the session as 'req.session.passport.user = {id: user.id}
+  done(null, user.id);
 });
-passport.deserializeUser(function(user, done) {
-  // console.log('serialized user -->', user)
-  done(null, user);
+// //Deserialize the user for the session
+// //first param is the key of the user user object that was given to done in serialize (user.id)
+passport.deserializeUser(function(id, done) {
+  //The user object is retrieved with the help of (user.id A.KA. id)
+  //The id is matched with the database 
+  // User.findById(id, (err, user) => {
+    //fetch object attached to the request as req.user
+      done(null, id); 
+  // })
+  
 });
 
 function ensureAuthenticated(req, res, next) {
@@ -50,11 +84,12 @@ function ensureAuthenticated(req, res, next) {
 
 app.get('/success', ensureAuthenticated, (req, res) => {
   res.status = 200;
+  console.log(res)
 });
 app.get('/failure', ensureAuthenticated, (req, res) => {
   res.rstatus = 401;
 })
-//test12
+
 // app.get('/getAll', (req, res) => {
 //   res.send(JSON.stringify(data.actual));
 // }); 
