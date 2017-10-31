@@ -3,12 +3,10 @@ const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
 const GithubStrategy = require('passport-github2').Strategy;
-// const data = require('./data.js');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const API = require('./authentication/request.js');
 const postController = require('./controller/postController');
-// const request = require('request');
 
 const PORT = 3000;
 const app = express();
@@ -21,11 +19,6 @@ app.use(passport.session());
 
 app.post('/', postController.postRequest);
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.redirect('/failure');
-}
-
 passport.use(new GithubStrategy({
   clientID: 'a6d93781fe295e2c9ce5',
   clientSecret: 'f0b48e47c452b696d88a709da6164d34f41c72b0',
@@ -34,18 +27,6 @@ passport.use(new GithubStrategy({
   process.nextTick(() => done(null, profile));
 
   API.requestApi(accessToken);
-  // const options = {
-  //   method: 'GET',
-  //   url: `https://api.github.com/repos/cli53/scratch-gas-production/contents/?access_token=${accessToken}`,
-  //   headers:
-  //   {
-  //     'User-Agent': 'Project-Githug',
-  //   },
-  // };
-  // request(options, (error, response, body) => {
-  //   if (error) throw new Error(error);
-  //   console.log(JSON.parse(body));
-  // });
 }));
 
 
@@ -53,10 +34,6 @@ app.get('/auth/github', passport.authenticate('github'));
 app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/failure', successRedirect: '/success' }),
-  ensureAuthenticated,
-  (req, res) => {
-    res;
-  },
 );
 
 // Serialize the user for the session
@@ -78,6 +55,10 @@ passport.deserializeUser((id, done) => {
   // })
 });
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.redirect('/failure');
+}
 
 app.get('/success', ensureAuthenticated, (req, res) => {
   res.json({ message: 'hello' });
@@ -86,14 +67,6 @@ app.get('/success', ensureAuthenticated, (req, res) => {
 app.get('/failure', ensureAuthenticated, (req, res) => {
   res.rstatus = 401;
 });
-
-// app.get('/getAll', (req, res) => {
-//   res.send(JSON.stringify(data.actual));
-// });
-
-// app.get('/getAllMock', (req, res) => {
-//   res.send(JSON.stringify(data.mock));
-// });
 
 // ensures that all routes are to be handled by REACT
 app.get('*', (req, res) => {
