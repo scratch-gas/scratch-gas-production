@@ -16,7 +16,7 @@ passport.use(new githubStrategy ({
     callbackURL: 'http://localhost:3000/auth/github/callback',
 }, function (accessToken, refreshToken, profile, done) {
     process.nextTick( () => done(null, profile));
-    console.log('THIS IS THE PROFILE', profile)
+    // console.log('THIS IS THE PROFILE', profile)
   }))
 
 
@@ -26,7 +26,6 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
 
 app.get('/success', testAuth, (req, res) => {
   res.status = 200;
-  res.send('yay!');
 });
 app.get('/failure', testAuth, (req, res) => {
   res.rstatus = 401;
