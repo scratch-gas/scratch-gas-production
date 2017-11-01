@@ -17,7 +17,7 @@ dataMagicController.startPoint = (body) => {
 }
 
 
-let bank = []; //bank where you get cache('CASH') GET IT? LOL
+// let bank = []; //bank where you get cache('CASH') GET IT? LOL
 
 
 
@@ -26,8 +26,9 @@ dataMagicController.parseBody = (body) => {
               // let bulkWriteArray = []; 
               // object with file names = contents 
               // push object to bulwriteArray
-
+  const bank = [];
   let fileProp;
+
   for (var i = 0; i < body.length; i++) {
     if (body[i].type === 'dir') {
       console.log('INSIDE >>>>>>>>>>>    FOLDER:     ' + body[i].name.toUpperCase())
@@ -44,7 +45,7 @@ dataMagicController.parseBody = (body) => {
         return (JSON.parse(body));
       });
 
-      dataMagicController.parseBody(folderBody);
+      bank.push(dataMagicController.parseBody(folderBody));
     }
 
     if (body[i].type === 'file') {
@@ -59,10 +60,9 @@ dataMagicController.parseBody = (body) => {
       bank.push(fileProp);
     }
   }
-  console.log('THIS IS BANKKKKKKKKK', bank);
-};
 
-// console.log('THIS IS BANKKKKKKKKK', bank);
+  console.log(bank);
+};
 
 dataMagicController.grabDependencies = (fileURL) => {
   // GET REQUEST USING FILEURL + SHA
