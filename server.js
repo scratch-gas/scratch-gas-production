@@ -34,10 +34,12 @@ app.post('/data', (req,res) => {
   console.log(req.body)
   let options = { method: 'GET',
   url: 'https://api.github.com/users/cli53/repos',
-  headers: 
-   { 'User-Aget': '928551e2-3527-65c9-ccb6-2be8ffe7c2b4',
-     'cache-control': 'no-cache' } };
-  request('https://api.github.com/users/cli53/repos',{User, function (error, response, body) {
+  headers:
+  {
+    'User-Agent': 'Project-Githug',
+  },
+     };
+  request('https://api.github.com/users/cli53/repos', function (error, response, body) {
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     console.log('body:', body); // Print the HTML for the Google homepage.
