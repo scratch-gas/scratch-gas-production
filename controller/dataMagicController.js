@@ -2,20 +2,18 @@
 // const Files = require('../model/FolderModel.js').fileSchema;
 // const Folder = require('../model/FolderModel.js').folderSchema;
 const request = require('request');
-const rq = require('request-promise');
+const rp = require('request-promise');
 
 // first finish recursion solution -- console log all files/folders/files within 
 // then focus on database after
 
 const dataMagicController = {};
 
-dataMagicController.startPoint = (response, body) => {
+dataMagicController.startPoint = async (response, body) => {
   console.log('ROOT: >>>>>>>>>>>');
-  console.log(body);
-
-  let cache = [];
   
-  return dataMagicController.parseBody(response, body);
+  const ALLTHEDATA = await dataMagicController.parseBody(body);
+  console.log('ALLLLLLTHEDATAAAAAAA >>>>>>>>>>> ', ALLTHEDATA);
 }
 
 
@@ -23,58 +21,67 @@ dataMagicController.startPoint = (response, body) => {
 
 
 
-dataMagicController.parseBody = (response, body) => {
-  //ignore: For database purposes later (maybe)
-              // let bulkWriteArray = []; 
-              // object with file names = contents 
-              // push object to bulwriteArray
-  const bank = [];
-  let fileProp;
+dataMagicController.parseBody = (body) => { 
+  return new Promise(async (resolve, reject) => {
+    //ignore: For database purposes later (maybe)
+    // let bulkWriteArray = []; 
+    // object with file names = contents 
+    // push object to bulwriteArray
+    const bank = [];
+    for (var i = 0; i < body.length; i++) {
 
-  for (var i = 0; i < body.length; i++) {
-    if (body[i].type === 'dir') {
-      // console.log('INSIDE >>>>>>>>>>>    FOLDER:     ' + body[i].name.toUpperCase())
-      const options = {
-        method: 'GET',
-        url: body[i].url,
-        headers:
-        {
-          'User-Agent': 'Project-Githug',
-        },
-        json: true // automatically parses the JSON string in the response
+      if (body[i].type === 'dir') {
+        console.log('INSIDE >>>>>>>>>>>    FOLDER:     ' + body[i].name.toUpperCase())
+
+        const options = {
+          method: 'GET',
+          url: body[i].url,
+          headers:
+          {
+            'User-Agent': 'Project-Githug',
+          },
+          json: true // automatically parses the JSON string in the response
+        }
+
+        await rp(options)
+          .then(async (files) => {
+            return await dataMagicController.parseBody(files);
+          }).catch(err => {
+            console.log(err);
+          })
       }
 
-      rq(options)
-        .then((files) => {
-          dataMagicController.parseBody(files);
-        }).catch(err => {
-          console.log(err);
-        })
-
-      // bank.push(dataMagicController.parseBody(folderBody));
+      if (body[i].type === 'file') {
+        console.log('INSIDE >>>>>>>>>>>    FILE:       ' + body[i].name.toUpperCase())
+        let fileProp = {
+          name: body[i].name,
+          sha: body[i].sha,
+          type: body[i].type,
+          url: body[i].url,
+          dependencies: dataMagicController.grabDependencies(body[i].url),
+        };
+        bank.push(fileProp);
+      }
     }
 
-    if (body[i].type === 'file') {
-      // console.log('INSIDE >>>>>>>>>>>    FILE:       ' + body[i].name.toUpperCase())
-      let fileProp = {
-        name: body[i].name,
-        sha: body[i].sha,
-        type: body[i].type,
-        url: body[i].url,
-        dependencies: dataMagicController.grabDependencies(body[i].url),
-      };
-      bank.push(fileProp);
-    }
-  }
-
-  console.log(bank);
+    resolve(bank);
+  })
 };
+
+
+
+
+
+
+
+
 
 dataMagicController.grabDependencies = (fileURL) => {
   // GET REQUEST USING FILEURL + SHA
   // WILL NEED TO GET BODY AND DECODE DAT SHIIIIIII
   return ['DEPENDENCIES', 'GO', 'HERE']; // for now to test flow
 };
+
 
 // properties to grab in file: 
   // name, sha, url, type
