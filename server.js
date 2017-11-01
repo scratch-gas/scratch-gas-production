@@ -8,6 +8,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const logger =require('morgan');
 const API = require('./authentication/request.js');
+const publicAPI = require('./ejsapi.js')
 
 
 const PORT = 3000;
@@ -30,21 +31,8 @@ app.get('/', (req, res) => {
 
   });
 
-app.post('/data', (req,res) => {
-  console.log(req.body.repo)
-  let name = req.body.user
-  let repos = req.body.repo
-  let options = { method: 'GET',
-  headers:
-  {
-    'User-Agent': 'Project-Githug',
-  },
-     };
-  request(`https://api.github.com/repos/${name}/${repos}`,options,  function (error, response, body) {
-    console.log('error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', JSON.parse(body)); // Print the HTML for the Google homepage.
-  });
+app.post('/data', publicAPI.requestAPI, (req,res) => {
+  console.log(res.json({message:res}))
 })
 
 
