@@ -31,18 +31,19 @@ app.get('/', (req, res) => {
   });
 
 app.post('/data', (req,res) => {
-  console.log(req.body)
+  console.log(req.body.repo)
+  let name = req.body.user
+  let repos = req.body.repo
   let options = { method: 'GET',
-  url: 'https://api.github.com/users/cli53/repos',
   headers:
   {
     'User-Agent': 'Project-Githug',
   },
      };
-  request(`https://api.github.com/zen`,options,  function (error, response, body) {
+  request(`https://api.github.com/repos/${name}/${repos}`,options,  function (error, response, body) {
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body); // Print the HTML for the Google homepage.
+    console.log('body:', JSON.parse(body)); // Print the HTML for the Google homepage.
   });
 })
 
