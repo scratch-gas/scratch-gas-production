@@ -13,7 +13,7 @@ module.exports = {
     };
     request(options, (error, response, body) => {
       if (error) throw new Error(error);
-      return dataMagic.startPoint(JSON.parse(body));
+      return dataMagic.startPoint(response, JSON.parse(body));
     });
   },
 

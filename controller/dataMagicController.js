@@ -8,13 +8,14 @@ const rq = require('request-promise');
 // then focus on database after
 
 const dataMagicController = {};
-dataMagicController.startPoint = (body) => {
+
+dataMagicController.startPoint = (response, body) => {
   console.log('ROOT: >>>>>>>>>>>');
   console.log(body);
 
   let cache = [];
   
-  return dataMagicController.parseBody(body);
+  return dataMagicController.parseBody(response, body);
 }
 
 
@@ -22,7 +23,7 @@ dataMagicController.startPoint = (body) => {
 
 
 
-dataMagicController.parseBody = (body) => {
+dataMagicController.parseBody = (response, body) => {
   //ignore: For database purposes later (maybe)
               // let bulkWriteArray = []; 
               // object with file names = contents 
@@ -32,7 +33,7 @@ dataMagicController.parseBody = (body) => {
 
   for (var i = 0; i < body.length; i++) {
     if (body[i].type === 'dir') {
-      console.log('INSIDE >>>>>>>>>>>    FOLDER:     ' + body[i].name.toUpperCase())
+      // console.log('INSIDE >>>>>>>>>>>    FOLDER:     ' + body[i].name.toUpperCase())
       const options = {
         method: 'GET',
         url: body[i].url,
@@ -54,7 +55,7 @@ dataMagicController.parseBody = (body) => {
     }
 
     if (body[i].type === 'file') {
-      console.log('INSIDE >>>>>>>>>>>    FILE:       ' + body[i].name.toUpperCase())
+      // console.log('INSIDE >>>>>>>>>>>    FILE:       ' + body[i].name.toUpperCase())
       let fileProp = {
         name: body[i].name,
         sha: body[i].sha,

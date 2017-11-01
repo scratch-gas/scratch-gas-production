@@ -10,11 +10,11 @@ const postController = require('./controller/postController');
 
 const dataMagic = require('./controller/dataMagicController');
 
-const mongoose = require('mongoose');
-const mongoURI = 'mongodb://localhost/scratch-gas'; // connection port 27017
-mongoose.createConnection(mongoURI).once('open', () => {
-  console.log('CONNECTED TO MONGOD DATABASE PORT 27017 -- scratch-gas');
-})
+// const mongoose = require('mongoose');
+// const mongoURI = 'mongodb://localhost/scratch-gas'; // connection port 27017
+// mongoose.createConnection(mongoURI).once('open', () => {
+//   console.log('CONNECTED TO MONGOD DATABASE PORT 27017 -- scratch-gas');
+// })
 
 
 const PORT = 3000;
