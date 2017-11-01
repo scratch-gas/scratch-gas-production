@@ -2,6 +2,7 @@
 // const Files = require('../model/FolderModel.js').fileSchema;
 // const Folder = require('../model/FolderModel.js').folderSchema;
 const request = require('request');
+const rq = require('request-promise');
 
 // first finish recursion solution -- console log all files/folders/files within 
 // then focus on database after
@@ -39,13 +40,17 @@ dataMagicController.parseBody = (body) => {
         {
           'User-Agent': 'Project-Githug',
         },
+        json: true // automatically parses the JSON string in the response
       }
-      let folderBody = request(options, (error, response, body) => {
-        if (error) throw new Error(error);
-        return (JSON.parse(body));
-      });
 
-      bank.push(dataMagicController.parseBody(folderBody));
+      rq(options)
+        .then((files) => {
+          dataMagicController.parseBody(files);
+        }).catch(err => {
+          console.log(err);
+        })
+
+      // bank.push(dataMagicController.parseBody(folderBody));
     }
 
     if (body[i].type === 'file') {
