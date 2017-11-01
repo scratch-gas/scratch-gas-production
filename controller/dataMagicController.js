@@ -1,36 +1,73 @@
 // will need to require in mongoose models 
-const Files = require('../model/FileModel.js');
-const Folder = require('../model/FolderModel.js');
+// const Files = require('../model/FolderModel.js').fileSchema;
+// const Folder = require('../model/FolderModel.js').folderSchema;
+const request = require('request');
+
+// first finish recursion solution -- console log all files/folders/files within 
+// then focus on database after
 
 const dataMagicController = {};
+dataMagicController.startPoint = (body) => {
+  console.log('ROOT: >>>>>>>>>>>');
+  console.log(body);
+
+  let cache = [];
+  
+  return dataMagicController.parseBody(body);
+}
+
+
+let bank = []; //bank where you get cache('CASH') GET IT? LOL
+
+
+
 dataMagicController.parseBody = (body) => {
-  // console.log(body);
+  //ignore: For database purposes later (maybe)
+              // let bulkWriteArray = []; 
+              // object with file names = contents 
+              // push object to bulwriteArray
+
   let fileProp;
   for (var i = 0; i < body.length; i++) {
+    if (body[i].type === 'dir') {
+      console.log('INSIDE >>>>>>>>>>>    FOLDER:     ' + body[i].name.toUpperCase())
+      const options = {
+        method: 'GET',
+        url: body[i].url,
+        headers:
+        {
+          'User-Agent': 'Project-Githug',
+        },
+      }
+      let folderBody = request(options, (error, response, body) => {
+        if (error) throw new Error(error);
+        return (JSON.parse(body));
+      });
+
+      dataMagicController.parseBody(folderBody);
+    }
+
     if (body[i].type === 'file') {
-      fileProp = {
+      console.log('INSIDE >>>>>>>>>>>    FILE:       ' + body[i].name.toUpperCase())
+      let fileProp = {
         name: body[i].name,
         sha: body[i].sha,
         type: body[i].type,
         url: body[i].url,
         dependencies: dataMagicController.grabDependencies(body[i].url),
       };
-      // will save fileProp object to database! 
-      console.log(fileProp);
+      bank.push(fileProp);
     }
-
-    if (body[i].type === 'folder') {
-      return dataMagicController.parseBody(body[i]);
-    }
-
-
-
-
   }
-}
+  console.log('THIS IS BANKKKKKKKKK', bank);
+};
+
+// console.log('THIS IS BANKKKKKKKKK', bank);
 
 dataMagicController.grabDependencies = (fileURL) => {
-  return [fileURL]; // for now to test flow -- will fix to send array of dependencies
+  // GET REQUEST USING FILEURL + SHA
+  // WILL NEED TO GET BODY AND DECODE DAT SHIIIIIII
+  return ['DEPENDENCIES', 'GO', 'HERE']; // for now to test flow
 };
 
 // properties to grab in file: 

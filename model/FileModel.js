@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// CURRENTLY NOT USING FILEMODEL.JS -- IF DECIDE TO USE:
+//          COMMENT BACK IN MODULE.EXPORTS
 
 let fileSchema = new Schema ({
   name: {type: String, required: true},
@@ -9,5 +11,5 @@ let fileSchema = new Schema ({
   dependencies: {type: Array},
 });
 
-let Files = mongoose.model('files', fileSchema);
-module.exports = Files;
+const Files = mongoose.model('Files', fileSchema);
+// module.exports = Files;
