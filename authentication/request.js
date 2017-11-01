@@ -1,4 +1,5 @@
 const request = require('request');
+const dataMagic = require('../controller/dataMagicController.js')
 
 module.exports = {
   requestApi(accessToken) {
@@ -12,7 +13,7 @@ module.exports = {
     };
     request(options, (error, response, body) => {
       if (error) throw new Error(error);
-      console.log(JSON.parse(body));
+      return dataMagic.parseBody(JSON.parse(body));
     });
   },
 };

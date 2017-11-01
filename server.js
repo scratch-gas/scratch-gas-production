@@ -8,6 +8,16 @@ const bodyParser = require('body-parser');
 const API = require('./authentication/request.js');
 const postController = require('./controller/postController');
 
+const dataMagic = require('./controller/dataMagicController');
+
+const mongoose = require('mongoose');
+const mongoURI = 'mongodb://localhost/scratch-gas'; // connection port 27017
+mongoose.connect(mongoURI);
+mongoose.connection.once('open', () => {
+  console.log('CONNECTED TO MONGOD DATABASE PORT 27017 -- scratch-gas');
+})
+
+
 const PORT = 3000;
 const app = express();
 app.use(cors());
