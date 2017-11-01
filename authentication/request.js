@@ -12,7 +12,7 @@ module.exports = {
     };
     request(options, (error, response, body) => {
       if (error) throw new Error(error);
-      console.log(JSON.parse(body));
+      // console.log(JSON.parse(body));
     });
   },
 };
