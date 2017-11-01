@@ -12,7 +12,7 @@ const dataMagic = require('./controller/dataMagicController');
 
 const mongoose = require('mongoose');
 const mongoURI = 'mongodb://localhost/scratch-gas'; // connection port 27017
-mongoose.connect(mongoURI);
+mongoose.createConnection(mongoURI);
 mongoose.connection.once('open', () => {
   console.log('CONNECTED TO MONGOD DATABASE PORT 27017 -- scratch-gas');
 })
