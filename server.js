@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const logger =require('morgan');
 const API = require('./authentication/request.js');
 const publicAPI = require('./ejsapi.js')
+const fs = require('fs');
 
 const dataMagic = require('./controller/dataMagicController');
 
@@ -84,7 +85,7 @@ app.get('/failure', ensureAuthenticated, (req, res) => {
 app.get('/', (req, res) => {
   res.render('index',
     {
-      message: 'Hello world of EJS!'
+      message: 'Data visualization of repository file structures'
     }
 )})
 
