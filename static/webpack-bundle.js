@@ -3044,6 +3044,7 @@ var App = function (_Component) {
   _createClass(App, [{
     key: 'login',
     value: function login() {
+<<<<<<< HEAD
       _axios2.default.get('http://localhost:3000/auth/github', {
         method: 'GET'
       }).then(function (resp) {
@@ -3054,6 +3055,24 @@ var App = function (_Component) {
         //   })
         console.log(resp);
         console.log('hi');
+=======
+      var _this2 = this;
+
+      fetch('http://localhost:3000/auth/github', {
+        method: 'GET'
+      }).then(function (resp) {
+        if (resp.status === 200) {
+          _this2.setState({
+            isAuth: true,
+            err: ''
+          });
+        } else if (resp.status === 401) {
+          _this2.setState({
+            isAuth: false,
+            err: resp.json()
+          });
+        }
+>>>>>>> fc647c297aa2921d9eb249ae19ccb28c14408c25
       }).catch(function (err) {
         return console.log('THIS DA ERROR', err);
       });

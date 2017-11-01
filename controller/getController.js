@@ -5,10 +5,10 @@ it can do following:
 * End the req-res cycle
 * call the next middleware in the stack(next())
 */
-const getController = {}
-getController.getRequest= (req, res, next)=> {
-    //res.send('This is your server')
-    next();
-}
+const getController = {};
+getController.getRequest = (req, res, next) => {
+  //res.send('This is your server');
+ next();
+};
 
 module.exports = getController;

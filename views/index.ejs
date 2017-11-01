@@ -1,9 +1,7 @@
 <% include ./partials/top.ejs %>
 <h1>Githug </h1>
 <h2><%= message%></h2>
-<form method="GET" action="/auth/github">
-    <input type="text" placeholder='Enter username' name="user">
-    <input type="text" placeholder='Enter repo name' name="repo">
+<form method="GET" action="/auth/github/">
     <button type="submit">Search</button>
   </form>
 <% include ./partials/bottom.ejs %>

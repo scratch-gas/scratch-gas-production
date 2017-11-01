@@ -10,6 +10,7 @@ const logger =require('morgan');
 const API = require('./authentication/request.js');
 const publicAPI = require('./ejsapi.js')
 
+const dataMagic = require('./controller/dataMagicController');
 
 const PORT = 3000;
 const app = express();
@@ -72,12 +73,11 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.get('/success', ensureAuthenticated, (req, res) => {
-  console.log('THIS IS THE RES IN SUCCESS', res)
   res.json({ message: 'hello' });
   res.status = 200;
 });
 app.get('/failure', ensureAuthenticated, (req, res) => {
-  res.rstatus = 401;
+  res.status = 401;
 });
 
 
@@ -85,18 +85,8 @@ app.get('/', (req, res) => {
   res.render('index',
     {
       message: 'Hello world of EJS!'
-
-  });
-
-// app.post('/data', publicAPI.requestAPI, (req,res) => {
-//   console.log(res.json({message:res}))
-// })
-
-
-});
-app.get('/test', function (req, res) {
-  res.json({why:'why'})
-})
+    }
+)})
 
 
 app.listen(PORT, (err) => {
@@ -107,5 +97,3 @@ app.listen(PORT, (err) => {
 });
 
 module.exports = app;
-
-

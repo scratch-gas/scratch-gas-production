@@ -6,7 +6,7 @@
   "scripts": {
     "webpack": "./node_modules/.bin/webpack -w",
     "webpack-dev": "webpack-dev-server",
-    "start": "node ./server.js",
+    "start": "nodemon ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "mongoose": "^4.12.5",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-github2": "^0.1.11",
@@ -34,7 +35,8 @@
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "babel": "^6.23.0",
