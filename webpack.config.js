@@ -4,7 +4,7 @@ module.exports = {
   entry: './client/App.js',
   output: {
     path: path.join(__dirname, 'static'),
-    filename: 'webpack-bundle.js'
+    filename: 'webpack-bundle.js',
   },
   watch: true,
   module: {

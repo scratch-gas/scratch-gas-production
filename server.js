@@ -2,32 +2,35 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
+const request = require('request');
 const GithubStrategy = require('passport-github2').Strategy;
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const logger =require('morgan');
 const API = require('./authentication/request.js');
-const postController = require('./controller/postController');
+const publicAPI = require('./ejsapi.js')
+const fs = require('fs');
 
 const dataMagic = require('./controller/dataMagicController');
 
-const mongoose = require('mongoose');
-const mongoURI = 'mongodb://localhost/scratch-gas'; // connection port 27017
-mongoose.createConnection(mongoURI);
-mongoose.connection.once('open', () => {
-  console.log('CONNECTED TO MONGOD DATABASE PORT 27017 -- scratch-gas');
-})
-
-
 const PORT = 3000;
 const app = express();
+
 app.use(cors());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('./static'));
+
+app.use(express.static('public'));
+app.use(logger('dev'));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+
 app.use(session({ secret: 'yomomma', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/', postController.postRequest);
 
 passport.use(new GithubStrategy({
   clientID: 'a6d93781fe295e2c9ce5',
@@ -75,15 +78,17 @@ app.get('/success', ensureAuthenticated, (req, res) => {
   res.status = 200;
 });
 app.get('/failure', ensureAuthenticated, (req, res) => {
-  res.rstatus = 401;
+  res.status = 401;
 });
 
-// ensures that all routes are to be handled by REACT
-app.get('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-  res.sendFile(path.join(__dirname, './static/index.html'));
-});
+
+app.get('/', (req, res) => {
+  res.render('index',
+    {
+      message: 'Data visualization of repository file structures'
+    }
+)})
+
 
 app.listen(PORT, (err) => {
   if (err) {
@@ -93,8 +98,3 @@ app.listen(PORT, (err) => {
 });
 
 module.exports = app;
-
-
-// route is a section of express code that associates HTTP verd(GET, POST, PUT, DELETE),
-// an url path/pattern, and a function that is called to handle the pattern
-
