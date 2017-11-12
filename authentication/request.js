@@ -1,5 +1,5 @@
 const request = require('request');
-const dataMagic = require('../controller/dataMagicController.js')
+const data = require('../controller/dataController.js')
 
 module.exports = {
   requestApi: function(accessToken) {
@@ -13,15 +13,7 @@ module.exports = {
     };
     request(options, (error, response, body) => {
       if (error) throw new Error(error);
-      return dataMagic.startPoint(response, JSON.parse(body));
+      return data.startPoint(response, JSON.parse(body));
     });
   },
-
-  // requestFolder: function(option) {
-  //   console.log('IN REQUESTFOLDER!!!!! >>>>>>');
-  //   request(options, (error, response, body) => {
-  //     if (error) throw new Error(error);
-  //     return dataMagic.parseBody(JSON.parse(body));
-  //   });
-  // },
 };

@@ -7,17 +7,15 @@ const rp = require('request-promise');
 // first finish recursion solution -- console log all files/folders/files within 
 // then focus on database after
 
-const dataMagicController = {};
-
-dataMagicController.startPoint = async (response, body) => {
+const dataController = {};
+dataController.startPoint = async (response, body) => {
   console.log('ROOT: >>>>>>>>>>>');
-  const ALLTHEDATA = await dataMagicController.parseBody(body);
-  // console.log('ALLLLLLTHEDATAAAAAAA >>>>>>>>>>> ', ALLTHEDATA);
+  const ALLTHEDATA = await dataController.parseBody(body);
+  console.log('ALLLLLLTHEDATAAAAAAA >>>>>>>>>>> ', ALLTHEDATA);
 }
 
-
 // let bank = []; //bank where you get cache('CASH') GET IT? LOL
-dataMagicController.parseBody = (body, count = 0) => { 
+dataController.parseBody = (body, count = 0) => { 
   return new Promise(async (resolve, reject) => {
     //ignore: For database purposes later (maybe)
     // let bulkWriteArray = []; 
@@ -37,12 +35,21 @@ dataMagicController.parseBody = (body, count = 0) => {
           json: true // automatically parses the JSON string in the response
         }
 
-        await rp(options)
+        const folderFiles = await rp(options)
         .then(async (files) => {
-          return await dataMagicController.parseBody(files, 1);
+          return await dataController.parseBody(files, 1);
         }).catch(err => {
           console.log(err);
-        })
+        });
+
+        let folderProp = {
+          name: body[i].name,
+          sha: body[i].sha,
+          type: body[i].url,
+          files: folderFiles,
+        };
+
+        bank.push(folderProp);
       }
 
       if (body[i].type === 'file') {
@@ -53,7 +60,7 @@ dataMagicController.parseBody = (body, count = 0) => {
           sha: body[i].sha,
           type: body[i].type,
           url: body[i].url,
-          dependencies: dataMagicController.grabDependencies(body[i].url),
+          dependencies: await dataController.grabDependencies(body[i].url),
         };
         bank.push(fileProp);
       }
@@ -63,10 +70,10 @@ dataMagicController.parseBody = (body, count = 0) => {
   })
 };
 
-dataMagicController.grabDependencies = (fileURL) => {
+dataController.grabDependencies = (fileURL) => {
   // GET REQUEST USING FILEURL + SHA
   // WILL NEED TO GET BODY AND DECODE DAT SHIIIIIII
   return ['DEPENDENCIES', 'GO', 'HERE']; // for now to test flow
 };
 
-module.exports = dataMagicController;
+module.exports = dataController;
